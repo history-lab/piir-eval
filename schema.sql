@@ -2,7 +2,8 @@ create schema if not exists piir_eval;
 create table if not exists piir_eval.tests 
     (test_id int generated always as identity primary key,
      doc_id  text not null, 
-     corpus  text not null);
+     corpus  text not null,
+     body    text not null);
 create table if not exists piir_eval.entities 
     (entity_code text primary key,
      description text not null);
