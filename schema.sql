@@ -1,6 +1,10 @@
 create schema if not exists piir_eval;
+create table if not exists piir_eval.testsets
+    (testset_id int generated always as identity primary key,
+     name       text not null);
 create table if not exists piir_eval.tests 
-    (test_id int generated always as identity primary key,
+    (test_id      int generated always as identity primary key,
+     testset_id   int not null references piir_eval.testsets,
      doc_id  text not null, 
      corpus  text not null,
      body    text not null);

@@ -21,10 +21,12 @@ values ('ban', 'Bank account number, 10-18 digits'),
        -- ('mac_address','MAC address'),
 
 -- first pass for tests, add all the cases from cables
-insert into piir_eval.tests (doc_id, corpus, body)
-select doc_id, 'cfpf', body
-   from foiarchive.docs 
-   where corpus = 'cfpf' and 
-   body ~ '(?!000|666)[0-8][0-9]{2}-(?!00)[0-9]{2}-(?!0000)[0-9]{4}';
+insert into piir_eval.testsets (name) values ('cables-ssn'); 
+-- insert into piir_eval.tests (testset_id, doc_id, corpus, body)
+-- select (select testset_id from piir_results.testsets where name = 'cables-ssn'),
+--        doc_id, 'cfpf', body
+--   from foiarchive.docs 
+--   where corpus = 'cfpf' and 
+--   body ~ '(?!000|666)[0-8][0-9]{2}-(?!00)[0-9]{2}-(?!0000)[0-9]{4}';
 
 
