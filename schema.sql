@@ -14,6 +14,10 @@ create table if not exists piir_eval.entities
 create table if not exists piir_eval.methods 
     (method_code text primary key,
      description text not null);
+create table if not exists piir_eval.runs
+    (run_id      int generated always as identity primary key,
+     method_code text not null references piir_eval.methods,
+     start_time  timestamp with time zone not null default current_timestamp);
 create table if not exists piir_eval.results 
     (result_id   int generated always as identity primary key,
      test_id     int  not null references piir_eval.tests,
