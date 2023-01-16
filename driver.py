@@ -29,6 +29,7 @@ def dp_run(doctext):
 # test_id, doc_id, corpus, body = stmts.get_all_tests(conn)[0]
 run_id = stmts.add_run(conn, method_code='capone')
 for test_id, doc_id, corpus, body in stmts.get_all_tests(conn):
+    testrun_id = stmts.add_testrun(conn, run_id=run_id, test_id=test_id) 
     print(test_id, doc_id, corpus)
     print(body)
     all_labels = dp_run([body])
