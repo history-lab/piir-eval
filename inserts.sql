@@ -7,7 +7,7 @@ values ('capone', 'Capital One Data Profiler'),
 insert into piir_eval.entities(entity_code, description) 
 values ('ban', 'Bank account number, 10-18 digits'),
        ('credit_card', 'Credit card bumber'),
-       ('drvers_license', 'Drivers license'),
+       ('drivers_license', 'Drivers license'),
        ('ssn','Social security number');
        -- ('address','address'),
        -- ('person','person''s name'),
