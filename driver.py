@@ -11,7 +11,7 @@ stmts = aiosql.from_path("driver.sql", "psycopg2")
 
 # data profiler related configuration
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # disable TensorFlow info msgs
-redacted = ['SSN', 'BAN', 'CREDIT_CARD', 'UUID', 'DRIVERS_LICENSE']
+redacted = ['SSN', 'BAN', 'CREDIT_CARD', 'DRIVERS_LICENSE']
 dl = dp.DataLabeler(labeler_type='unstructured')
 # set the output to the NER format (start position, end position, label)
 dl.set_params(
@@ -31,8 +31,14 @@ run_id = stmts.add_run(conn, method_code='capone')
 for test_id, doc_id, corpus, body in stmts.get_all_tests(conn):
     testrun_id = stmts.add_testrun(conn, run_id=run_id, test_id=test_id) 
     print(test_id, doc_id, corpus)
-    print(body)
+    # print(body)
     all_labels = dp_run([body])
     redact_labels = list(filter(lambda l: l[2] in redacted, all_labels))
-    print(redact_labels)
+    for r in redact_labels:
+        start_idx, end_idx, entity_code = r[0], r[1], r[2].lower()
+        entity_text = body[start_idx:end_idx]
+        print(f'{entity_code=}, {entity_text=} {start_idx=}, {end_idx=}')
+        stmts.add_result(conn, testrun_id=testrun_id, 
+                          entity_code=entity_code, entity_text=entity_text,
+                          start_idx=start_idx, end_idx=end_idx)
     print('\n' * 2)

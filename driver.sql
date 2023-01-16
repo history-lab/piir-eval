@@ -11,3 +11,8 @@ insert into piir_eval.runs(method_code)
 insert into piir_eval.testruns(run_id, test_id) 
    values (:run_id, :test_id)
    returning testrun_id;
+-- name: add_result!
+insert into piir_eval.results(testrun_id, entity_code, entity_text,
+                              start_idx, end_idx)
+   values (:testrun_id, :entity_code, :entity_text,
+           :start_idx, :end_idx);
