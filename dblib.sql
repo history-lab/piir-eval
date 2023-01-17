@@ -16,3 +16,6 @@ insert into piir_eval.results(testrun_id, entity_code, entity_text,
                               start_idx, end_idx)
    values (:testrun_id, :entity_code, :entity_text,
            :start_idx, :end_idx);
+-- name: add_result_noidx!
+insert into piir_eval.results(testrun_id, entity_code, entity_text)
+   values (:testrun_id, :entity_code, :entity_text);
