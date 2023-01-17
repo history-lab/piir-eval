@@ -1,3 +1,4 @@
 aiosql==7.2
 psycopg2-binary==2.9.5
 DataProfiler==0.8.6
+commonregex-improved==1.0.2
