@@ -29,5 +29,5 @@ create table if not exists piir_eval.results
      testrun_id  int not null  references piir_eval.testruns on delete cascade,
      entity_code text not null references piir_eval.entities,
      entity_text text not null,
-     start_idx   int  not null,
-     end_idx     int  not null);
+     start_idx   int,
+     end_idx     int);
