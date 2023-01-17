@@ -1,13 +1,6 @@
 import os
-import psycopg2
-import aiosql
 import dataprofiler as dp
-
-
-# db-related configuration
-conn = psycopg2.connect("")
-conn.autocommit = True
-stmts = aiosql.from_path("driver.sql", "psycopg2")
+from dblib import conn, stmts
 
 # data profiler related configuration
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # disable TensorFlow info msgs
@@ -22,9 +15,6 @@ def dp_run(doctext):
     # find the PII using the built-in Data Profiler model
     results = dl.predict(doctext)
     return results['pred'][0]
-
-
-
 
 # test_id, doc_id, corpus, body = stmts.get_all_tests(conn)[0]
 run_id = stmts.add_run(conn, method_code='capone')
