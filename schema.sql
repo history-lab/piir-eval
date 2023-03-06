@@ -35,7 +35,7 @@ create table if not exists piir_eval.ground_truth
     (ground_truth_id  int generated always as identity primary key,
      test_id          int  not null references piir_eval.tests,
      entity_code      text not null references piir_eval.entities,
-     entity_text      text not null,
+     entity_text      text,
      start_idx        int not null,
      end_idx          int not null,
      label_studio_id  int not null,
