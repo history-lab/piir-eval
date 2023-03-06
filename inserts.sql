@@ -8,11 +8,11 @@ insert into piir_eval.entities(entity_code, description)
 values ('ban', 'Bank account number, 10-18 digits'),
        ('credit_card', 'Credit card bumber'),
        ('drivers_license', 'Drivers license'),
-       ('ssn','Social security number');
+       ('ssn','Social security number'),
+       ('phone_number','Phone number');
        -- ('address','address'),
        -- ('person','person''s name'),
        -- ('email_address','Email address'),
-       -- ('phone_number','Phone number'),
        -- ('url','URL'),
        -- ('uuid','UUID'),
        -- ('hash_or_key','md5, sha1, sha256, random hash, etc.'),
