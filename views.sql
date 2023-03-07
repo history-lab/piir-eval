@@ -54,3 +54,29 @@ select t.test_id,
    from tests t left join capone c on (t.test_id = c.test_id)
                 left join muckrock m on (t.test_id = m.test_id);
 
+create or replace view piir_eval.capone_eval as
+with capone (test_id, start_idx, end_idx, entity_code, entity_text, 
+             start_time, doc_id, docurl) as 
+            (select test_id, start_idx, end_idx, entity_code, entity_text, 
+                    start_time, doc_id, docurl
+               from piir_eval.results_view 
+               where method_code = 'capone' and 
+                     start_idx is not null)
+select coalesce(gt.test_id, c.test_id) task_id, 
+       gt.start_idx gt_start, gt.end_idx gt_end,
+       c.start_idx co_start, c.end_idx co_end,
+       gt.entity_code gt_entity, c.entity_code co_entity, 
+       c.entity_text co_entity_text, 
+       case when c.start_idx = gt.start_idx then 'TP'
+            when gt.start_idx is null       then 'FP'
+            when gt.start_idx is not null   then 'FN'
+       end redaction_result,
+       case when gt.entity_code = c.entity_code and
+                 gt.start_idx = c.start_idx then 'TP'
+            when gt.start_idx is null       then 'FP'
+            when gt.start_idx is not null   then 'FN'
+       end entity_result,
+       start_time, doc_id, docurl
+   from piir_eval.ground_truth gt full outer join capone c
+     on (gt.test_id = c.test_id and gt.start_idx = c.start_idx)
+   order by c.test_id, c.start_idx, gt.start_idx;
