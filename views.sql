@@ -80,3 +80,30 @@ select coalesce(gt.test_id, c.test_id) task_id,
    from piir_eval.ground_truth gt full outer join capone c
      on (gt.test_id = c.test_id and gt.start_idx = c.start_idx)
    order by c.test_id, c.start_idx, gt.start_idx;
+
+create or replace view piir_eval.muckrock_eval as
+with muckrock (test_id, start_idx, end_idx, entity_code, entity_text, 
+             start_time, doc_id, docurl) as 
+            (select test_id, start_idx, end_idx, entity_code, entity_text, 
+                    start_time, doc_id, docurl
+               from piir_eval.results_view 
+               where method_code = 'muckrock' and 
+                     start_idx is not null)
+select coalesce(gt.test_id, c.test_id) task_id, 
+       gt.start_idx gt_start, gt.end_idx gt_end,
+       c.start_idx mu_start, c.end_idx mu_end,
+       gt.entity_code gt_entity, c.entity_code mu_entity, 
+       c.entity_text mu_entity_text, 
+       case when c.start_idx = gt.start_idx then 'TP'
+            when gt.start_idx is null       then 'FP'
+            when gt.start_idx is not null   then 'FN'
+       end redaction_result,
+       case when gt.entity_code = c.entity_code and
+                 gt.start_idx = c.start_idx then 'TP'
+            when gt.start_idx is null       then 'FP'
+            when gt.start_idx is not null   then 'FN'
+       end entity_result,
+       start_time, doc_id, docurl
+   from piir_eval.ground_truth gt full outer join muckrock c
+     on (gt.test_id = c.test_id and gt.start_idx = c.start_idx)
+   order by c.test_id, c.start_idx, gt.start_idx;
