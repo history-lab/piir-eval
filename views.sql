@@ -107,3 +107,12 @@ select coalesce(gt.test_id, c.test_id) task_id,
    from piir_eval.ground_truth gt full outer join muckrock c
      on (gt.test_id = c.test_id and gt.start_idx = c.start_idx)
    order by c.test_id, c.start_idx, gt.start_idx;
+
+create or replace view piir_eval.ground_truth_view as
+select gt.test_id task_id, gt.start_idx, gt.end_idx,
+       gt.entity_code, gt.entity_text, t.doc_id, 
+       'http://history-lab.org/documents/' || t.doc_id doc_url, 
+       gt.label_studio_id, gt.creator, gt.completed,
+       gt.ground_truth_id
+     from piir_eval.ground_truth gt join piir_eval.tests t
+          on (gt.test_id = t.test_id);
