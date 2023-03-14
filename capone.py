@@ -4,7 +4,7 @@ from dblib import conn, stmts
 
 # data profiler related configuration
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # disable TensorFlow info msgs
-redacted = ['SSN', 'BAN', 'CREDIT_CARD', 'DRIVERS_LICENSE']
+redacted = ['SSN', 'PHONE_NUMBER', 'BAN', 'CREDIT_CARD', 'DRIVERS_LICENSE']
 dl = dp.DataLabeler(labeler_type='unstructured')
 # set the output to the NER format (start position, end position, label)
 dl.set_params(
@@ -27,7 +27,7 @@ for test_id, doc_id, corpus, body in stmts.get_all_tests(conn):
     for r in redact_labels:
         start_idx, end_idx, entity_code = r[0], r[1], r[2].lower()
         entity_text = body[start_idx:end_idx]
-        print(f'{entity_code=}, {entity_text=} {start_idx=}, {end_idx=}')
+        print(f'{entity_code=}, {start_idx=}, {end_idx=}')
         stmts.add_result(conn, testrun_id=testrun_id, 
                           entity_code=entity_code, entity_text=entity_text,
                           start_idx=start_idx, end_idx=end_idx)
