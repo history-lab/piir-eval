@@ -23,8 +23,7 @@ select r.method_code, r.run_id, tr.start_time, tr.task_id,
 
 create or replace view piir_eval.ground_truth_view as
 select gt.task_id task_id, gt.start_idx, gt.end_idx,
-       gt.entity_code, gt.entity_text, t.doc_id, 
-       'http://history-lab.org/documents/' || t.doc_id doc_url, 
+       gt.entity_code, gt.entity_text, t.doc_id, t.doc_url, 
        gt.label_studio_id, gt.creator, gt.completed,
        gt.ground_truth_id
      from piir_eval.ground_truth gt join piir_eval.tasks_view t
