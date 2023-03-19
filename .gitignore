@@ -2,6 +2,7 @@ scratch.sql
 *.csv
 *.xlsx
 tests/
+results/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
