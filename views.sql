@@ -1,3 +1,11 @@
+create view piir_eval.tasks_view as
+select t.task_id, t.taskset_id, ts.name taskset_name, t.corpus
+       t.doc_id, 
+   from piir_eval.tasks t join piir_eval.taskset ts
+                              on (t.taskset_id = ts.taskset_id)
+                          join covid19.dcml_training dt
+                              on (t.doc_id = dt.item_id)
+
 create view piir_eval.results_view as
 select r.method_code, r.run_id, tr.start_time, tr.task_id, 
        tr.taskrun_id, t.doc_id, t.corpus,
