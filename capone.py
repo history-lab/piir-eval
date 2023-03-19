@@ -4,7 +4,7 @@ from dblib import conn, stmts
 
 # data profiler related configuration
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # disable TensorFlow info msgs
-redacted = ['SSN', 'PHONE_NUMBER', 'BAN', 'CREDIT_CARD', 'DRIVERS_LICENSE']
+redacted = ['SSN', 'PHONE_NUMBER', 'BAN', 'CREDIT_CARD', 'DRIVERS_LICENSE', 'EMAIL_ADDRESS']
 dl = dp.DataLabeler(labeler_type='unstructured')
 # set the output to the NER format (start position, end position, label)
 dl.set_params(

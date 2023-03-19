@@ -20,4 +20,5 @@ for task_id, doc_id, corpus, body in stmts.get_all_tasks(conn):
     store_pii(taskrun_id, 'ssn', crim.ssn_numbers(body), body)
     store_pii(taskrun_id, 'phone_number', crim.phones(body), body)
     store_pii(taskrun_id, 'ban', crim.iban_numbers(body), body)
-    # store_pii(taskrun_id, 'credit_card', crim.credit_cards(body), body)
+    store_pii(taskrun_id, 'credit_card', crim.credit_cards(body), body)
+    store_pii(taskrun_id, 'email_address', crim.emails(body), body)
