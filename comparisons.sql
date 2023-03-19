@@ -4,12 +4,12 @@ with ru(task_id, start_idx, doc_id, doc_url) as (
     select task_id, start_idx, doc_id, doc_url 
         from piir_eval.ground_truth_view
         union
-    select test_id, start_idx, doc_id, docurl 
+    select task_id, start_idx, doc_id, docurl 
         from piir_eval.results_view
         where method_code = 'capone' and 
               start_idx is not null
         union
-    select test_id, start_idx, doc_id, docurl 
+    select task_id, start_idx, doc_id, docurl 
         from piir_eval.results_view
         where method_code = 'muckrock' and 
               start_idx is not null
@@ -64,11 +64,11 @@ select ru.task_id, ru.start_idx,
                 on (ru.task_id = gt.task_id and 
                     ru.start_idx = gt.start_idx)
             left join piir_eval.results_view co
-                on (ru.task_id = co.test_id and 
+                on (ru.task_id = co.task_id and 
                     ru.start_idx = co.start_idx and 
                     co.method_code = 'capone')
             left join piir_eval.results_view mu
-                on (ru.task_id = mu.test_id and 
+                on (ru.task_id = mu.task_id and 
                     ru.start_idx = mu.start_idx and 
                     mu.method_code = 'muckrock')
     order by ru.task_id, ru.start_idx;

@@ -20,10 +20,10 @@ values ('ban', 'Bank account number, 10-18 digits'),
        -- ('ipv6','IP address, version 6'),
        -- ('mac_address','MAC address'),
 
--- first pass for tests, add all the cases from cables
-insert into piir_eval.testsets (name) values ('cables-ssn'); 
-insert into piir_eval.tests (testset_id, doc_id, corpus, body)
-select (select testset_id from piir_eval.testsets where name = 'cables-ssn'),
+-- first pass for tasks, add all the cases from cables
+insert into piir_eval.tasksets (name) values ('cables-ssn'); 
+insert into piir_eval.tasks (taskset_id, doc_id, corpus, body)
+select (select taskset_id from piir_eval.tasksets where name = 'cables-ssn'),
         doc_id, 'cfpf', body
    from foiarchive.docs 
    where corpus = 'cfpf' and 
