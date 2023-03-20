@@ -10,7 +10,12 @@ create view piir_eval.results_view as
 select r.method_code, r.run_id, tr.start_time, tr.task_id, 
        tr.taskrun_id, t.doc_id, t.corpus, t.doc_url,
        res.result_id, res.entity_code, res.entity_text, 
-       res.start_idx, res.end_idx
+       res.start_idx, res.end_idx,
+       case when start_idx = lag(start_idx, 1) 
+               over (order by tr.task_id, start_idx) + 1 
+                    then start_idx - 1
+                    else start_idx
+       end join_idx
    from piir_eval.runs r join piir_eval.taskruns tr 
                               on (r.run_id = tr.run_id)
                          join piir_eval.tasks_view t
