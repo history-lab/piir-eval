@@ -4,12 +4,12 @@ with ru(task_id, start_idx, doc_id, doc_url) as (
     select task_id, start_idx, doc_id, doc_url 
         from piir_eval.ground_truth_view
         union
-    select task_id, start_idx, doc_id, docurl 
+    select task_id, start_idx, doc_id, doc_url 
         from piir_eval.results_view
         where method_code = 'capone' and 
               start_idx is not null
         union
-    select task_id, start_idx, doc_id, docurl 
+    select task_id, start_idx, doc_id, doc_url 
         from piir_eval.results_view
         where method_code = 'muckrock' and 
               start_idx is not null
