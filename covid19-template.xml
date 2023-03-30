@@ -1,0 +1,12 @@
+ <View>
+    <Labels name="label" toName="text">
+        <Label Value="ban"/>
+        <Label Value="credit_card"/>
+        <Label Value="drivers_license"/>
+        <Label Value="email_address"/>
+        <Label Value="phone_number"/>
+        <Label Value="ssn"/>
+    </Labels>
+    <Text name="text" value="$text"></Text>
+</View>
+
