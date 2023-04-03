@@ -29,8 +29,8 @@ create table if not exists piir_eval.results
      taskrun_id  int not null  references piir_eval.taskruns on delete cascade,
      entity_code text not null references piir_eval.entities,
      entity_text text not null,
-     start_idx   int,
-     end_idx     int);
+     start_idx   int not null,
+     end_idx     int not null);
 create table if not exists piir_eval.ground_truth
     (ground_truth_id  int generated always as identity primary key,
      task_id          int  not null references piir_eval.tasks,
