@@ -7,7 +7,7 @@ select t.task_id, t.taskset_id, ts.name taskset_name, t.corpus,
                               on (t.doc_id = dt.item_id::text);
 
 create view piir_eval.results_view as
-select r.method_code, r.run_id, tr.start_time, tr.task_id, 
+select t.taskset_name, r.method_code, r.run_id, tr.start_time, tr.task_id, 
        tr.taskrun_id, t.doc_id, t.corpus, t.doc_url,
        res.result_id, res.entity_code, res.entity_text, 
        res.start_idx, res.end_idx,
