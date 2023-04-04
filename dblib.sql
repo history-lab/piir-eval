@@ -1,8 +1,9 @@
 -- name: get_all_tasks
 -- Get all tasks
-select task_id, doc_id, corpus, body
-   from piir_eval.tasks
-   order by task_id;
+select t.task_id, t.doc_id, t.corpus, t.body
+   from piir_eval.tasks t join piir_eval.ls_dcml_data d on (t.task_id = d.task_id)
+   where t.task_id = d.task_id
+   order by t.task_id;
 -- name: add_run<!
 insert into piir_eval.runs(method_code) 
    values (:method_code)
