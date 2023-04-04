@@ -1,7 +1,7 @@
 scratch.sql
 *.csv
 *.xlsx
-tests/
+tasks/
 results/
 
 # Byte-compiled / optimized / DLL files
