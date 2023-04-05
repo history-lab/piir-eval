@@ -1,0 +1,1 @@
+sed -i '' 's/[[:space:]]*↵$//' test.json
