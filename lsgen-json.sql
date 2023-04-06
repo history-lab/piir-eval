@@ -20,5 +20,8 @@ select jsonb_pretty(jsonb_agg(jsonb_build_object(
                   jsonb_build_array()) 
                   from piir_eval.tool_detected_pii r 
                   where r.task_id = t.task_id))))))
-from piir_eval.tasks t join piir_eval.ls_dcml_data d 
-      on (t.task_id = d.task_id);
+from piir_eval.tasks t 
+      join piir_eval.ls_dcml_data d on (t.task_id = d.task_id)
+      join piir_eval.ls_dcml_annotation_assignments s on (s.data_id = d.data_id)
+      join piir_eval.ls_dcml_annotators a on (s.annotator_id =  a.annotator_id)
+where a.name = :'st';
