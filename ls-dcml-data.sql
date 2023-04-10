@@ -14,7 +14,8 @@ with tasks_pii(task_id) as
                                     on (r.doc_id::int = d.item_id)
         where r.taskset_name = 'dcml' and
               r.start_idx is not null and  -- PII exists
-              d.pg_cnt <= 5)
+              d.pg_cnt <= 5 and 
+              d.body not ilike '%FOIA%request%')
 insert into piir_eval.ls_dcml_data (task_id, pii_detected)
 select task_id, 't'
     from tasks_pii
@@ -32,14 +33,14 @@ with tasks_no_pii(task_id) as
               not exists (select 1 from piir_eval.results_view e
                             where e.task_id = r.task_id and
                                   e.start_idx is not null) and
-              d.pg_cnt <= 5)
+              d.pg_cnt <= 5 and length(d.body) > 400)
 insert into piir_eval.ls_dcml_data (task_id, pii_detected)
 select task_id, 'f'
    from tasks_no_pii
    order by random()
    limit 75;
 
-create table piir_eval.ls_dcml_annotators(
+create table if not exists piir_eval.ls_dcml_annotators(
     annotator_id    int generated always as identity primary key,
     name            text not null);
 insert into piir_eval.ls_dcml_annotators(name) 
