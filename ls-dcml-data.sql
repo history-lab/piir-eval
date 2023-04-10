@@ -15,9 +15,11 @@ with tasks_pii(task_id) as
         where r.taskset_name = 'dcml' and
               r.start_idx is not null and  -- PII exists
               d.pg_cnt <= 5 and 
-              d.body not ilike '%FOIA%request%' and 
+              d.body not ilike '%FOIA%request%' and
+              d.body not ilike '%FOIL%request%' and  
               d.body not ilike '%public records act%' and
-              d.body not ilike '%records request%')
+              d.body not ilike '%records request%' and
+              d.body not ilike '%muckrock.com%')
 insert into piir_eval.ls_dcml_data (task_id, pii_detected)
 select task_id, 't'
     from tasks_pii
@@ -36,9 +38,11 @@ with tasks_no_pii(task_id) as
                             where e.task_id = r.task_id and
                                   e.start_idx is not null) and
               d.pg_cnt <= 5 and length(d.body) > 400 and 
-              d.body not ilike '%FOIA%request%' and 
+              d.body not ilike '%FOIA%request%' and
+              d.body not ilike '%FOIL%request%' and  
               d.body not ilike '%public records act%' and
-              d.body not ilike '%records request%')
+              d.body not ilike '%records request%' and
+              d.body not ilike '%muckrock.com%')
 insert into piir_eval.ls_dcml_data (task_id, pii_detected)
 select task_id, 'f'
    from tasks_no_pii
@@ -47,7 +51,7 @@ select task_id, 'f'
 
 create table if not exists piir_eval.ls_dcml_annotators(
     annotator_id    int generated always as identity primary key,
-    name            text not null);
+    name            text not null unique);
 insert into piir_eval.ls_dcml_annotators(name) 
     values ('isobel'), ('jules'), ('natalie');
 
