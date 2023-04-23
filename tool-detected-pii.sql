@@ -1,5 +1,5 @@
-drop view if exists piir_eval.tool_detected_pii;
-create view piir_eval.tool_detected_pii as
+drop materialized view if exists piir_eval.tool_detected_pii;
+create materialized view piir_eval.tool_detected_pii as
 select task_id, doc_id, doc_url, join_idx start_idx,
        coalesce(mu_end_idx, co_end_idx) end_idx,
        coalesce(mu_entity_code, co_entity_code) entity_code,
