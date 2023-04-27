@@ -10,7 +10,9 @@ values ('ban', 'Bank account number, 10-18 digits'),
        ('drivers_license', 'Drivers license'),
        ('ssn','Social security number'),
        ('phone_number','Phone number'),
-       ('email_address','Email address')
+       ('email_address','Email address'),
+       ('social media','Social media handle'),
+       ('zipcode', 'Zipcode')
        ;
        -- ('address','address'),
        -- ('person','person''s name'),

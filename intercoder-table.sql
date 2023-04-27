@@ -1,40 +1,48 @@
-drop table if exists piir_eval.comparisons;
-create table piir_eval.comparisons (
-    task_id          integer,
-    start_idx        integer,
-    tool             text,
-    redaction_result text,
-    entity_result    text,
-    gt_entity_code   text,
-    t_entity_code    text,
-    gt_entity_text   text,
-    t_entity_text    text,
-    gt_start_idx     integer,
-    t_start_idx      integer,
-    gt_end_idx       integer,
-    t_end_idx        integer,
-    gt_creator       text,
-    gt_completed     timestamp with time zone,
-    gt_id            integer,
-    label_studio_id  integer,
-    doc_id           text,
-    doc_url          text,
+drop table if exists piir_eval.intercoder;
+create table piir_eval.intercoder (
+    task_id              integer,
+    start_idx            integer,
+    jules_start_idx      integer,
+    jules_end_idx        integer,
+    jules_entity_code    text,
+    jules_entity_text    text,
+    jules_completed      timestamp with time zone,
+    jules_id             integer,
+    isobel_start_idx     integer,
+    isobel_end_idx       integer,
+    isobel_entity_code   text,
+    isobel_entity_text   text,
+    isobel_completed     timestamp with time zone,
+    isobel_id            integer,
+    natalie_start_idx    integer,
+    natalie_end_idx      integer,
+    natalie_entity_code  text,
+    natalie_entity_text  text,
+    natalie_completed    timestamp with time zone,
+    natalie_id           integer,
+    doc_id               text,
+    doc_url              text,
     primary key (task_id, start_idx)
 );
-insert into piir_eval.comparisons (task_id, start_idx, 
-   gt_entity_code, gt_entity_text, gt_start_idx, gt_end_idx, gt_creator,
-   gt_completed, label_studio_id, gt_id, doc_id, doc_url) 
-select task_id, start_idx, 
-   entity_code, entity_text, start_idx, end_idx, creator,
-   completed, label_studio_id, ground_truth_id, doc_id, doc_url
-from piir_eval.ground_truth_view tv
+insert into piir_eval.intercoder (task_id, start_idx,
+    jules_start_idx, jules_end_idx, jules_entity_code, jules_entity_text, 
+    jules_completed, jules_id, doc_id, doc_url) 
+select task_id, start_idx,
+    start_idx, end_idx, entity_code, entity_text, 
+    completed, ground_truth_id,doc_id, doc_url
+from piir_eval.jules_ground_truth j
 where completed = (select max(completed)
-                        from piir_eval.ground_truth x
-                        where x.start_idx = tv.start_idx and
-                              x.end_idx = tv.end_idx);
+                            from piir_eval.jules_ground_truth mj
+                            where mj.task_id = j.task_id and
+                                  mj.start_idx = j.start_idx and
+                                  mj.end_idx = j.end_idx);
 
-update piir_eval.comparisons c
-   set (tool, t_entity_code, t_entity_text, t_start_idx, t_end_idx) =
+update piir_eval.intercoder i
+   set (jules_start_idx, jules_end_idx, jules_entity_code, jules_entity_text, 
+    jules_completed, jules_id),
+   
+   
+   (tool, t_entity_code, t_entity_text, t_start_idx, t_end_idx) =
        (select tool, entity_code, entity_text, start_idx, end_idx
            from piir_eval.tool_detected_pii t
            where t.task_id = c.task_id and
